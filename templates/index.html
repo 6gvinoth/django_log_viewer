@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta charset="utf-8">
+ 
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+
+<!-- <link rel="stylesheet" href="static/css/bootstrap.min.css"> -->
+
+<!-- jQuery library -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
+<!-- <script src="static/js/jquery.min.js"></script> -->
+<!-- Latest compiled JavaScript -->
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+<!-- <script src="static/js/bootstrap.min.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/css/bootstrap-table-expandable.css">
+<script src="/static/js/bootstrap-table-expandable.js"></script>
+
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+  
+  <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+  <script src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+
+
+
+<style>
+  .pagination-page-info {
+    padding: .6em;
+    padding-left: 0;
+    width: 40em;
+    margin: .5em;
+    margin-left: 0;
+    font-size: 12px;
+}
+.pagination-page-info b {
+    color: black;
+    //background: #FFFF00;
+    padding-left: 2px;
+    padding: .1em .25em;
+    font-size: 150%;
+}
+table {
+  border-collapse: collapse;
+  width: 50%;
+  margin: auto;
+   width: 95% !important; 
+}
+table th {
+   text-align: center; 
+}
+
+</style>
+
+ 
+<!-- #search  -->
+
+<!-- <button id="sync" type="button" class=" pull-right" onclick="window.location.href='{{ url_for( 'sync') }}';">Sync</button>  -->
+
+
+<button id="sync" type="button" class="pull-right">Sync</button> 
+<label class="pull-right" for="limit">Last Update : {{last_update|tojson}}&nbsp &nbsp </label>
+
+
+
+
+<!-- ------------------------ -->
+<form action="/">
+<div class="row">
+  &nbsp &nbsp &nbsp<div class="col-sm-4"><label for="log">LOG</label>  
+<select name="log" id="log">
+{% for col in collection_names %}
+ <option value={{col}}>{{col}}</option>
+{% endfor %}
+</select></div>
+
+  <div class="col-sm-4"><label for="limit">LIMIT</label>
+
+<select name="limit" id="limit">
+  <option value=10>10</option>
+  <option value=20>20</option>
+  <option value=30>30</option>s
+</select></div>
+  
+</div>
+<div class="row">
+   <div class="col-sm-4">
+<label class="form-check-label" for="flexCheckChecked">
+    Start Date
+  </label>
+
+    <div class="row">
+      <div class='col-sm-8'>
+        <div class="form-group">
+          <div class='input-group date' id='datetimepicker1'>
+            <input type='text' name="start_date" class="form-control" id="start_date"/>
+            <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <script type="text/javascript">
+        $(function() {
+          $('#datetimepicker1').datetimepicker();
+        });
+      </script>
+    </div>
+    </div>
+    <div class="col-sm-4">
+  
+  <label class="form-check-label" for="flexCheckChecked">
+    End Date
+  </label>
+
+    <div class="row">
+      <div class='col-sm-8'>
+        <div class="form-group">
+          <div class='input-group date' id='datetimepicker2'>
+            <input type='text' name="end_date" class="form-control" id="end_date"/>
+            <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <script type="text/javascript">
+        $(function() {
+          $('#datetimepicker2').datetimepicker();
+        });
+      </script>
+    </div>
+  </div>
+  
+<br><br><br><br>
+<div class="row">
+  <div class="col-sm-4">
+&nbsp &nbsp &nbsp <label >Log Type:</label><br>
+
+  &nbsp &nbsp &nbsp  <input  type="checkbox" value="1" id="ERROR" name = "ERROR">
+  <label class="form-check-label" for="flexCheckDefault">
+    ERROR
+  </label>
+
+
+  <input class="form-check-input" type="checkbox" value="1" id="WARNING" name="WARNING" >
+  <label class="form-check-label" for="flexCheckChecked">
+    WARNING
+  </label>
+
+
+  <input class="form-check-input" type="checkbox" value="1" id="DEBUG" name="DEBUG">
+  <label class="form-check-label" for="flexCheckDefault">
+    DEBUG
+  </label>
+
+  <input class="form-check-input" type="checkbox" value="1" id="INFO" name="INFO" >
+  <label class="form-check-label" for="flexCheckChecked">
+    INFO
+  </label>
+</div>
+  <br>
+  <label >Sort:</label><br>
+  <input class="form-check-input" type="checkbox" value="-1" id="sort" name="sort" >
+<label class="form-check-label" for="flexCheckDefault">
+    DES
+  </label>
+<br>
+
+  &nbsp &nbsp &nbsp &nbsp &nbsp<label for="log_search">Search:</label><br>
+ &nbsp &nbsp &nbsp &nbsp &nbsp <input style="height:40px;width:720px;"type="text" id="log_search" name="log_search" >
+  &nbsp &nbsp &nbsp<input style="height:40px;width:120px" class="btn btn-success"type="submit" value="Search">
+</form>
+<br>
+
+{% if not error_ff %}
+<div style="padding:50px;">{{ pagination.info }}<div>
+&nbsp &nbsp &nbsp &nbsp{{ pagination.links }}
+
+<!-- <table class="table table-hover table-expandable table-sticky-header"> -->
+  <table class="table table-sticky-header table-bordered table-striped "> 
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>DATE</th>
+      <th>TYPE</th>
+      <th>LOG</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for d in data %}
+      <tr>
+        <td>{{ loop.index + pagination.skip }}</td>
+        <td>{{ d.date }}</td>  
+        <td {% if d.log_type == "ERROR" %} bgcolor="#f2021e"{% endif %}
+        {% if d.log_type == "INFO" %} bgcolor="#a3ca40"{% endif %}
+        {% if d.log_type == "WARNING" %} bgcolor="#F7F700"{% endif %}
+        {% if d.log_type == "DEBUG" %} bgcolor="#ffb6c1"{% endif %}>
+      {{ d.log_type }}</td>
+        <td data-type="log">
+
+        <button data-type="copy" class="btn-clipboard btn btn-success pull-right" >
+          <svg data-type="copy" class="bi bi-clipboard" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16">
+  <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+  <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+</svg>
+          <!-- <i data-type="copy" class="bi bi-clipboard"></i> -->
+        </button><br>{{ d.log }}</td>
+      </tr>
+     <!--  <tr>
+        <td colspan="5">{{ d.log }}</td>
+      </tr> -->
+    {% endfor %}
+  </tbody>
+</table>
+&nbsp &nbsp &nbsp &nbsp{{ pagination.links }}
+{% endif %}
+{% if error_ff %}
+<h2 style="position: absolute;left: 188px;top: 284px;"><span class="label label-danger">No Records Found ....... !!!</span></h2>
+{% endif %}
+
+<script type="text/javascript">
+  debugger;
+  $("#start_date").val({{start_date | tojson}})
+  $("#end_date").val({{end_date| tojson}})
+  $("#log").val({{log | tojson}})
+  $("#log_search").val({{ log_search | tojson }});
+  $("#limit").val({{per_page}});
+  if($("#log_search").val() == "[object Object]")
+  {
+    $("#log_search").val("");
+  }
+
+  if({{c_error}} == "1")
+  {
+    $( "#ERROR" ).prop( "checked", true );
+  }
+  if({{c_warning}} == "1")
+  {
+    $( "#WARNING" ).prop( "checked", true );
+  }
+  if({{c_debug}} == "1")
+  {
+    $( "#DEBUG" ).prop( "checked", true );
+  }
+  if({{c_info}} == "1")
+  {
+    $( "#INFO" ).prop( "checked", true );
+  }
+  try{
+  if({{sort}} == "-1")
+  {
+    $( "#sort" ).prop( "checked", true );
+  }
+}
+catch(err)
+{}
+  document.querySelectorAll('button[data-type="copy"]')
+  .forEach(function(button){
+      button.addEventListener('click', function(){
+      let email = this.parentNode.parentNode
+        .querySelector('td[data-type="log"]')
+        .innerText;
+      
+      let tmp = document.createElement('textarea');
+          tmp.value = email;
+          tmp.setAttribute('readonly', '');
+          tmp.style.position = 'absolute';
+          tmp.style.left = '-9999px';
+          document.body.appendChild(tmp);
+          tmp.select();
+          document.execCommand('copy');
+          document.body.removeChild(tmp);
+          // alert("copied");
+    });
+});
+
+
+  $("#sync").click(function(e) {
+    // e.preventDefault();
+    // $.ajax({
+    //     type: "POST",
+    //     url: "/sync",
+    //     data: { 
+    //     },
+    //     success: function(result) {
+            alert('Sucessfully Triggered'); })
+//         },
+//         error: function(result) {
+//             alert('error');
+//         }
+//     });
+// });
+</script>
+</html>
